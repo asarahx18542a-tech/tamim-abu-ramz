@@ -15,9 +15,12 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.11.1'
-      - uses: android-actions/setup-android@v3
-      - run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
-      - run: gradle assembleDebug bundleRelease
+      - name: Install Android SDK packages
+        run: |
+          yes | sdkmanager --licenses > /dev/null || true
+          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+      - name: Build APK and AAB
+        run: gradle assembleDebug bundleRelease
       - uses: actions/upload-artifact@v4
         with:
           name: tamim-abu-ramz-apk
