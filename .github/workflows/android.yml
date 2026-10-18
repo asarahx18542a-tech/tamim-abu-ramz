@@ -1,4 +1,5 @@
 name: Build New Tamim App
+
 on:
   push:
     branches: [ new-app-v1 ]
@@ -13,18 +14,14 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
+      - uses: android-actions/setup-android@v3
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
       - name: Install Android SDK
-        run: |
-          yes | sdkmanager --licenses >/dev/null || true
-          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+        run: sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
       - name: Embed coach profile image inside the app
-        run: |
-          mkdir -p tools
-          curl -fsSL https://raw.githubusercontent.com/asarahx18542a-tech/tamim-abu-ramz/main/tools/embed_profile_image.py -o tools/embed_profile_image.py
-          python3 tools/embed_profile_image.py
+        run: python3 tools/embed_profile_image.py
       - name: Build APK
         run: gradle --no-daemon :app:assembleDebug :app:assembleRelease
       - name: Upload APK
