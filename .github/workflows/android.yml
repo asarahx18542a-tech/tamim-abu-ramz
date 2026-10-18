@@ -20,6 +20,11 @@ jobs:
         run: |
           yes | sdkmanager --licenses >/dev/null || true
           sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+      - name: Embed coach profile image inside the app
+        run: |
+          mkdir -p tools
+          curl -fsSL https://raw.githubusercontent.com/asarahx18542a-tech/tamim-abu-ramz/main/tools/embed_profile_image.py -o tools/embed_profile_image.py
+          python3 tools/embed_profile_image.py
       - name: Build APK
         run: gradle --no-daemon :app:assembleDebug :app:assembleRelease
       - name: Upload APK
