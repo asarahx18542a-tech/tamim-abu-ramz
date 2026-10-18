@@ -29,6 +29,8 @@ jobs:
       - name: Install Android SDK packages
         run: |
           sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+      - name: Restore modern app UI
+        run: gunzip -c tools/new_index.html.gz > app/src/main/assets/index.html
       - name: Embed coach profile image inside the app
         run: python3 tools/embed_profile_image.py
       - name: Build APK
@@ -44,4 +46,4 @@ jobs:
           name: tamim-new-app-release-apk
           path: app/build/outputs/apk/release/app-release-unsigned.apk
 
-# Rebuild after JVM compatibility fix
+# Modern upgrade: workout library, goals, owner settings and image controls
